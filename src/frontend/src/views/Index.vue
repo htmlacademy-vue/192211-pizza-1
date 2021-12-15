@@ -9,14 +9,14 @@
 
             <div class="sheet__content dough">
               <label
-                class="dough__input dough__input--light"
                 v-for="item in dough"
                 :key="item.id"
+                :class="['dough__input', `dough__input--${item.type}`]"
               >
                 <input
                   type="radio"
                   name="dought"
-                  :value="item.price"
+                  :value="item.type"
                   class="visually-hidden"
                   checked
                 />
@@ -33,9 +33,9 @@
 
             <div class="sheet__content diameter">
               <label
-                class="diameter__input diameter__input--small"
                 v-for="size in sizes"
                 :key="size.id"
+                :class="['diameter__input', `diameter__input--${size.type}`]"
               >
                 <input
                   type="radio"
@@ -67,7 +67,7 @@
                   <input
                     type="radio"
                     name="sauce"
-                    :value="sauce.price"
+                    :value="sauce.type"
                     checked
                   />
                   <span>{{ sauce.name }}</span>
@@ -83,7 +83,7 @@
                     v-for="ingredient in ingredients"
                     :key="ingredient.id"
                   >
-                    <span class="filling filling--mushrooms">{{
+                    <span :class="['filling', `filling--${ingredient.type}`]">{{
                       ingredient.name
                     }}</span>
 
@@ -149,16 +149,22 @@
 import misc from "../static/misc.json";
 import { dough, ingredients, sauces, sizes } from "../static/pizza.json";
 import user from "../static/user.json";
+import {
+  normalizeDough,
+  normalizeIngredients,
+  normalizeSauces,
+  normalizeSizes,
+} from "../common/helpers";
 
 export default {
   name: "PizzaConstructor",
   data() {
     return {
       misc,
-      dough,
-      ingredients,
-      sauces,
-      sizes,
+      dough: dough.map(normalizeDough),
+      ingredients: ingredients.map(normalizeIngredients),
+      sauces: sauces.map(normalizeSauces),
+      sizes: sizes.map(normalizeSizes),
       user,
     };
   },
