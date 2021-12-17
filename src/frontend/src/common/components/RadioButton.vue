@@ -1,5 +1,5 @@
 <template>
-  <label :class="customStyleClass">
+  <label>
     <input
       type="radio"
       :name="name"
@@ -19,10 +19,6 @@ export default {
     name: {
       type: String,
       required: true,
-    },
-    customStyleClass: {
-      type: [String, Array],
-      default: "",
     },
     value: {
       type: [String, Number],

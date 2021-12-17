@@ -6,7 +6,7 @@
         <div class="ingredients__sauce">
           <p>Основной соус:</p>
           <RadioButton
-            custom-style-class="radio ingredients__input"
+            class="radio ingredients__input"
             v-for="sauce in dataSauces"
             :key="sauce.id"
             name="sauce"
@@ -23,7 +23,7 @@
           <ul class="ingredients__list">
             <li
               class="ingredients__item"
-              v-for="ingredient in dataIngredients"
+              v-for="ingredient in ingredients"
               :key="ingredient.id"
             >
               <AppDrag :transfer-data="ingredient">
@@ -31,7 +31,7 @@
                   ingredient.name
                 }}</span>
                 <ItemCounter
-                  customStyleClass="ingredients__counter"
+                  class="counter counter--orange customStyleClass ingredients__counter"
                   :itemType="ingredient.type"
                   :value="ingredient.count"
                   @addIngredient="changeIngredient"
@@ -71,11 +71,17 @@ export default {
       default: "tomato",
     },
   },
+  data() {
+    return {
+      ingredients: [...this.dataIngredients],
+    };
+  },
   methods: {
     changeIngredient(ingredientType, value) {
-      const ingredient = this.data.ingredients.find(
+      const ingredient = this.ingredients.find(
         (i) => i.type === ingredientType
       );
+
       ingredient.count = value;
       const action = value <= 0 ? "deleteIngredient" : "addIngredient";
       this.$emit(action, ingredient);

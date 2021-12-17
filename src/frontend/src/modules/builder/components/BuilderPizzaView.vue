@@ -5,7 +5,11 @@
         <div
           v-for="ingredient in ingredients"
           :key="ingredient.id"
-          :class="['pizza__filling', `pizza__filling--${ingredient.type}`]"
+          :class="[
+            'pizza__filling',
+            `pizza__filling--${ingredient.type}`,
+            getClassByCount(ingredient.count),
+          ]"
         ></div>
       </div>
     </div>
@@ -33,7 +37,20 @@ export default {
   },
   methods: {
     moveIngredient(value) {
-      this.$emit("dropIngredient", value);
+      if (value.count < 3) {
+        this.$emit("dropIngredient", value);
+      }
+    },
+
+    getClassByCount(count) {
+      let className = "";
+      if (count === 2) {
+        className = "pizza__filling--second";
+      }
+      if (count === 3) {
+        className = "pizza__filling--third";
+      }
+      return className;
     },
   },
 };

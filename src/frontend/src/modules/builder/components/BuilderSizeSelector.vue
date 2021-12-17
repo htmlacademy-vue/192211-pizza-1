@@ -7,10 +7,7 @@
         <RadioButton
           v-for="size in data"
           :key="size.id"
-          :custom-style-class="[
-            'diameter__input',
-            `diameter__input--${size.type}`,
-          ]"
+          :class="['diameter__input', `diameter__input--${size.type}`]"
           name="diameter"
           :value="size.type"
           @onChangeValue="changeSize"

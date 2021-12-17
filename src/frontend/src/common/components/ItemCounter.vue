@@ -1,5 +1,5 @@
 <template>
-  <div :class="['counter', 'counter--orange', customStyleClass]">
+  <div>
     <button
       type="button"
       :disabled="value <= 0"
@@ -19,6 +19,7 @@
       type="button"
       class="counter__button counter__button--plus"
       @click="addIngredient(1)"
+      :disabled="value >= 3"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -30,10 +31,6 @@ export default {
   name: "Counter",
   props: {
     itemType: {
-      type: String,
-      default: "",
-    },
-    customStyleClass: {
       type: String,
       default: "",
     },
