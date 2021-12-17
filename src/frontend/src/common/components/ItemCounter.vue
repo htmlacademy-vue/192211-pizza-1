@@ -19,7 +19,7 @@
       type="button"
       class="counter__button counter__button--plus"
       @click="addIngredient(1)"
-      :disabled="value >= 3"
+      :disabled="value >= maxValue"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -38,6 +38,10 @@ export default {
       type: Number,
       default: 0,
     },
+    maxValue: {
+      type: Number,
+      default: 3,
+    },
   },
   data() {
     return {};
@@ -50,8 +54,11 @@ export default {
     inputCount(event) {
       const value =
         "" + event.target.value.replace(/^0/, "").replace(/\D/g, "");
-      event.target.value = value || 0;
-      this.$emit("addIngredient", this.itemType, event.target.value);
+      if (value && value > 3) {
+        event.target.value = 3;
+      }
+
+      this.$emit("addIngredient", this.itemType, +event.target.value || 0);
     },
   },
 };
