@@ -37,9 +37,7 @@ export default {
   },
   methods: {
     moveIngredient(value) {
-      if (value.count < 3) {
-        this.$emit("dropIngredient", value);
-      }
+      this.$emit("dropIngredient", value);
     },
 
     getClassByCount(count) {

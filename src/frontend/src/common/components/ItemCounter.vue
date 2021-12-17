@@ -54,8 +54,8 @@ export default {
     inputCount(event) {
       const value =
         "" + event.target.value.replace(/^0/, "").replace(/\D/g, "");
-      if (value && value > 3) {
-        event.target.value = 3;
+      if (value && value > this.maxValue) {
+        event.target.value = this.maxValue;
       }
 
       this.$emit("addIngredient", this.itemType, +event.target.value || 0);

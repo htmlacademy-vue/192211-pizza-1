@@ -26,7 +26,10 @@
               v-for="ingredient in ingredients"
               :key="ingredient.id"
             >
-              <AppDrag :transfer-data="ingredient">
+              <AppDrag
+                :transfer-data="ingredient"
+                :draggable="ingredient.count < 3"
+              >
                 <span :class="['filling', `filling--${ingredient.type}`]">{{
                   ingredient.name
                 }}</span>
@@ -34,6 +37,7 @@
                   class="counter counter--orange customStyleClass ingredients__counter"
                   :itemType="ingredient.type"
                   :value="ingredient.count"
+                  :max-value="3"
                   @addIngredient="changeIngredient"
                 />
               </AppDrag>
