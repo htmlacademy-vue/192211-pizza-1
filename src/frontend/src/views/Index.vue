@@ -12,9 +12,8 @@
             :data="getIngredientsAndSauces"
             :data-ingredients="ingredients"
             :data-sauces="sauces"
-            @addIngredient="addIngredient"
+            @updateIngredient="updatedIngredient"
             @addSauce="addSauce"
-            @deleteIngredient="deleteIngredient"
           />
 
           <div class="content__pizza">
@@ -33,17 +32,6 @@
               :ingredients="order.ingredients"
               @dropIngredient="dropAddIngredients"
             />
-
-            <!--          <div class="content__constructor">-->
-            <!--            <div class="pizza pizza--foundation--big-tomato">-->
-            <!--              <div class="pizza__wrapper">-->
-            <!--                <div class="pizza__filling pizza__filling--mushrooms"></div>-->
-            <!--                <div class="pizza__filling pizza__filling--onion"></div>-->
-            <!--                <div class="pizza__filling pizza__filling--bacon"></div>-->
-            <!--                <div class="pizza__filling pizza__filling--salmon"></div>-->
-            <!--              </div>-->
-            <!--            </div>-->
-            <!--          </div>-->
 
             <PriceCounter :order="order" />
           </div>
@@ -100,16 +88,45 @@ export default {
     };
   },
   methods: {
-    addIngredient(ingredient) {
+    updateIngredientsData(type, updatedIngredient) {
+      const oldIngredientIndex = this.ingredients.findIndex(
+        (i) => i.type === type
+      );
+      if (oldIngredientIndex >= 1) {
+        this.ingredients[oldIngredientIndex] = updatedIngredient;
+      }
+    },
+    updateIngredientsInOrder(ingredient) {
       const ingredientsInOrder = this.order.ingredients;
       const foundIngredientIndex = ingredientsInOrder.findIndex(
         (i) => i.type === ingredient.type
       );
-      if (foundIngredientIndex >= 0) {
-        ingredientsInOrder[foundIngredientIndex] = ingredient;
+
+      if (ingredient.count > 0) {
+        this.addIngredientToOrder(foundIngredientIndex, ingredient);
+      } else {
+        this.removeIngredientFromOrder(foundIngredientIndex);
+      }
+    },
+
+    addIngredientToOrder(indexIngredientInOrder, ingredient) {
+      if (indexIngredientInOrder >= 0) {
+        this.order.ingredients[indexIngredientInOrder] = ingredient;
       } else {
         this.order.ingredients.push(ingredient);
       }
+    },
+
+    removeIngredientFromOrder(indexIngredientInOrder) {
+      this.order.ingredients = [
+        ...ingredients.slice(0, indexIngredientInOrder),
+        ...ingredients.slice(indexIngredientInOrder + 1),
+      ];
+    },
+
+    updateIngredient(ingredient) {
+      this.updateIngredientsData(ingredient.type, ingredient);
+      this.updateIngredientsInOrder(ingredient);
     },
 
     dropAddIngredients(ingredient) {
@@ -118,17 +135,6 @@ export default {
       );
       foundIngredient.count++;
       this.addIngredient(foundIngredient);
-    },
-
-    deleteIngredient(ingredient) {
-      const { ingredients } = this.order;
-      const ingredientIndexToDelete = ingredients.findIndex(
-        (i) => i === ingredient
-      );
-      this.order.ingredients = [
-        ...ingredients.slice(0, ingredientIndexToDelete),
-        ...ingredients.slice(ingredientIndexToDelete + 1),
-      ];
     },
 
     addSauce(sauce) {

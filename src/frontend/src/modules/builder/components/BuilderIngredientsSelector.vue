@@ -23,7 +23,7 @@
           <ul class="ingredients__list">
             <li
               class="ingredients__item"
-              v-for="ingredient in ingredients"
+              v-for="ingredient in dataIngredients"
               :key="ingredient.id"
             >
               <AppDrag
@@ -58,10 +58,6 @@ export default {
   name: "IngredientsSelector",
   components: { AppDrag, ItemCounter, RadioButton },
   props: {
-    data: {
-      type: Object,
-      required: true,
-    },
     dataIngredients: {
       type: Array,
       default: () => [],
@@ -75,20 +71,17 @@ export default {
       default: "tomato",
     },
   },
-  data() {
-    return {
-      ingredients: [...this.dataIngredients],
-    };
-  },
+
   methods: {
     changeIngredient(ingredientType, value) {
       const ingredient = this.ingredients.find(
         (i) => i.type === ingredientType
       );
 
-      ingredient.count = value;
-      const action = value <= 0 ? "deleteIngredient" : "addIngredient";
-      this.$emit(action, ingredient);
+      this.$emit('updateIngredient', {
+        ...ingredient,
+        count: value,
+        });
     },
 
     addSauce(sauce) {
