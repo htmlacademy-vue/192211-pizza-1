@@ -44,83 +44,60 @@ export const normalizeSauces = (sauce) => {
 };
 
 export const normalizeIngredients = (ingredient) => {
+  let type = "";
   switch (ingredient.name.toLowerCase()) {
     case "грибы":
-      return {
-        ...ingredient,
-        type: "mushrooms",
-      };
+      type = "mushrooms";
+      break;
     case "чеддер":
-      return {
-        ...ingredient,
-        type: "cheddar",
-      };
+      type = "cheddar";
+      break;
     case "салями":
-      return {
-        ...ingredient,
-        type: "salami",
-      };
+      type = "salami";
+      break;
     case "ветчина":
-      return {
-        ...ingredient,
-        type: "ham",
-      };
+      type = "ham";
+      break;
     case "ананас":
-      return {
-        ...ingredient,
-        type: "ananas",
-      };
+      type = "ananas";
+      break;
     case "бекон":
-      return {
-        ...ingredient,
-        type: "bacon",
-      };
+      type = "bacon";
+      break;
     case "лук":
-      return {
-        ...ingredient,
-        type: "onion",
-      };
+      type = "onion";
+      break;
     case "чили":
-      return {
-        ...ingredient,
-        type: "chile",
-      };
+      type = "chile";
+      break;
     case "халапеньо":
-      return {
-        ...ingredient,
-        type: "jalapeno",
-      };
+      type = "jalapeno";
+      break;
     case "маслины":
-      return {
-        ...ingredient,
-        type: "olives",
-      };
+      type = "olives";
+      break;
     case "томаты":
-      return {
-        ...ingredient,
-        type: "tomatoes",
-      };
+      type = "tomatoes";
+      break;
     case "лосось":
-      return {
-        ...ingredient,
-        type: "salmon",
-      };
+      type = "salmon";
+      break;
     case "моцарелла":
-      return {
-        ...ingredient,
-        type: "mozzarella",
-      };
+      type = "mozzarella";
+      break;
     case "пармезан":
-      return {
-        ...ingredient,
-        type: "parmesan",
-      };
+      type = "parmesan";
+      break;
     case "блю чиз":
-      return {
-        ...ingredient,
-        type: "blue_cheese",
-      };
+      type = "blue_cheese";
+      break;
     default:
       throw new Error(`no ingredient found with name ${ingredient.name}`);
   }
+
+  return {
+    ...ingredient,
+    type,
+    count: 0,
+  };
 };
