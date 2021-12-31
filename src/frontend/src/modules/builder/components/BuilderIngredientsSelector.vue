@@ -38,7 +38,7 @@
                   :itemType="ingredient.type"
                   :value="ingredient.count"
                   :max-value="3"
-                  @addIngredient="changeIngredient"
+                  @addIngredient="changeIngredient(ingredient, $event)"
                 />
               </AppDrag>
             </li>
@@ -73,15 +73,8 @@ export default {
   },
 
   methods: {
-    changeIngredient(ingredientType, value) {
-      const ingredient = this.ingredients.find(
-        (i) => i.type === ingredientType
-      );
-
-      this.$emit('updateIngredient', {
-        ...ingredient,
-        count: value,
-        });
+    changeIngredient(oldIngredient, value) {
+      this.$emit("updateIngredient", oldIngredient, value);
     },
 
     addSauce(sauce) {

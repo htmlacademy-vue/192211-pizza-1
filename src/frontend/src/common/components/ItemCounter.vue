@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     addIngredient(addValue) {
-      this.$emit("addIngredient", this.itemType, this.value + addValue);
+      this.$emit("addIngredient",this.value + addValue);
     },
 
     inputCount(event) {

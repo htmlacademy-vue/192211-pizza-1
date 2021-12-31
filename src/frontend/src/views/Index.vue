@@ -12,7 +12,7 @@
             :data="getIngredientsAndSauces"
             :data-ingredients="ingredients"
             :data-sauces="sauces"
-            @updateIngredient="updatedIngredient"
+            @updateIngredient="updateIngredientsData"
             @addSauce="addSauce"
           />
 
@@ -88,14 +88,11 @@ export default {
     };
   },
   methods: {
-    updateIngredientsData(type, updatedIngredient) {
-      const oldIngredientIndex = this.ingredients.findIndex(
-        (i) => i.type === type
-      );
-      if (oldIngredientIndex >= 1) {
-        this.ingredients[oldIngredientIndex] = updatedIngredient;
-      }
+    updateIngredientsData(ingredient, value) {
+      ingredient.count = value;
+      this.updateIngredientsInOrder(ingredient);
     },
+
     updateIngredientsInOrder(ingredient) {
       const ingredientsInOrder = this.order.ingredients;
       const foundIngredientIndex = ingredientsInOrder.findIndex(
@@ -118,9 +115,10 @@ export default {
     },
 
     removeIngredientFromOrder(indexIngredientInOrder) {
+      const oldOrderIngredients = this.order.ingredients;
       this.order.ingredients = [
-        ...ingredients.slice(0, indexIngredientInOrder),
-        ...ingredients.slice(indexIngredientInOrder + 1),
+        ...oldOrderIngredients.slice(0, indexIngredientInOrder),
+        ...oldOrderIngredients.slice(indexIngredientInOrder + 1),
       ];
     },
 
@@ -134,7 +132,7 @@ export default {
         (i) => i.type === ingredient.type
       );
       foundIngredient.count++;
-      this.addIngredient(foundIngredient);
+      this.updateIngredientsInOrder(foundIngredient);
     },
 
     addSauce(sauce) {
